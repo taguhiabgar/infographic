@@ -15,32 +15,18 @@ let allInDegrees = 360.0
 let allInPercents = 100.0
 
 // node
-let makeNodeBiggerDuration = 0.6
+let makeNodeBiggerDuration = 0.3
 let makeNodeBiggerDelay = 0.0
-let makeNodeBiggerSpringDamping: CGFloat = 0.5
+let makeNodeBiggerSpringDamping: CGFloat = 0 // 0.5 in previous version
 let makeNodeBiggerVelocity: CGFloat = 0.0
 let nodeImageName = "blue_circle"
 
 // progress line
 let progressLineWidth: CGFloat = 3.0
-let progressLineMarginCoefficient: CGFloat = 0.03
+let progressLineMarginCoefficient: CGFloat = 0.05
 
 // colors
-let mainColor = UIColor(red: 240/255, green: 60/255, blue: 60/255, alpha: 1.0)
-let secondColor = UIColor(red: 236/255, green: 121/255, blue: 121/255, alpha: 1.0)
-
-class NodeMember {
-    
-    var percentage: Double
-    var color: UIColor
-    var explanation: String
-    
-    init(percentage: Double, color: UIColor, explanation: String) {
-        self.percentage = percentage
-        self.explanation = explanation
-        self.color = color
-    }
-}
+let mainColor = thistle
 
 class ViewController: UIViewController {
     
@@ -51,6 +37,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = lavender
         initialSetup()
     }
     
@@ -77,12 +64,12 @@ class ViewController: UIViewController {
         let frame = CGRect(x: self.nodeView.frame.origin.x - newOriginDifference, y: self.nodeView.frame.origin.y - newOriginDifference, width: newSide, height: newSide)
         // warning: this as a test information
         let nodeInformation = [
-            NodeMember(percentage: 17, color: UIColor.red, explanation: "food"),
-            NodeMember(percentage: 45, color: UIColor.green, explanation: "drinks"),
-            NodeMember(percentage: 11, color: UIColor.blue, explanation: "online payments"),
-            NodeMember(percentage: 3, color: UIColor.yellow, explanation: "taxes"),
-            NodeMember(percentage: 5, color: UIColor.orange, explanation: "insurance"),
-            NodeMember(percentage: 19, color: UIColor.magenta, explanation: "insurance"),
+            NodeMember(percentage: 17, color: plum, explanation: "food"),
+            NodeMember(percentage: 45, color: darkViolet, explanation: "drinks"),
+            NodeMember(percentage: 11, color: orchid, explanation: "online payments"),
+            NodeMember(percentage: 3, color: darkOrchid, explanation: "taxes"),
+            NodeMember(percentage: 5, color: magenta, explanation: "insurance"),
+            NodeMember(percentage: 19, color: indigo, explanation: "insurance"),
             ]
         
         if !isZoomed {
