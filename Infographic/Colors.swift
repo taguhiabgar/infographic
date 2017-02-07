@@ -1,3 +1,5 @@
+
+
 //
 //  Colors.swift
 //  Infographic
@@ -12,21 +14,21 @@ import UIKit
 
 // --- Purple ---
 
-let lavender = UIColor.rgbColor(red: 230,green: 230,blue: 250)
-let thistle = UIColor.rgbColor(red: 216,green: 191,blue: 216)
-let plum = UIColor.rgbColor(red: 221,green: 160,blue: 221)
-let violet = UIColor.rgbColor(red: 238,green: 130,blue: 238)
-let orchid = UIColor.rgbColor(red: 218,green: 112,blue: 214)
-let fuchsia = UIColor.rgbColor(red: 255,green: 0,blue: 255)
-let magenta = UIColor.rgbColor(red: 255,green: 0,blue: 255)
-let mediumOrchid = UIColor.rgbColor(red: 186,green: 85,blue: 211)
-let mediumPurple = UIColor.rgbColor(red: 147,green: 112,blue: 219)
-let blueViolet = UIColor.rgbColor(red: 138,green: 43,blue: 226)
-let darkViolet = UIColor.rgbColor(red: 148,green: 0,blue: 211)
-let darkOrchid = UIColor.rgbColor(red: 153,green: 50,blue: 204)
-let darkMagenta = UIColor.rgbColor(red: 139,green: 0,blue: 139)
-let purple = UIColor.rgbColor(red: 128,green: 0,blue: 128)
-let indigo = UIColor.rgbColor(red: 75,green: 0,blue: 130)
+let lavender = UIColor.rgb(230,230,250)
+let thistle = UIColor.rgb(216,191,216)
+let plum = UIColor.rgb(221,160,221)
+let violet = UIColor.rgb(238,130,238)
+let orchid = UIColor.rgb(218,112,214)
+let fuchsia = UIColor.rgb(255,0,255)
+let magenta = UIColor.rgb(255,0,255)
+let mediumOrchid = UIColor.rgb(186,85,211)
+let mediumPurple = UIColor.rgb(147,112,219)
+let blueViolet = UIColor.rgb(138,43,226)
+let darkViolet = UIColor.rgb(148,0,211)
+let darkOrchid = UIColor.rgb(153,50,204)
+let darkMagenta = UIColor.rgb(139,0,139)
+let purple = UIColor.rgb(128,0,128)
+let indigo = UIColor.rgb(75,0,130)
 
 
 

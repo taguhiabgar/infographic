@@ -39,7 +39,10 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = lavender
         initialSetup()
+        
+        convertColorDataIntoSwiftCode(data: "Blue\n\naliceblue = rgb(240,248,255)\nlavender = rgb(230,230,250)")
     }
+
     
     private func initialSetup() {
         makeNodeClickable()
@@ -64,12 +67,12 @@ class ViewController: UIViewController {
         let frame = CGRect(x: self.nodeView.frame.origin.x - newOriginDifference, y: self.nodeView.frame.origin.y - newOriginDifference, width: newSide, height: newSide)
         // warning: this as a test information
         let nodeInformation = [
-            NodeMember(percentage: 17, color: plum, explanation: "food"),
-            NodeMember(percentage: 45, color: darkViolet, explanation: "drinks"),
-            NodeMember(percentage: 11, color: orchid, explanation: "online payments"),
-            NodeMember(percentage: 3, color: darkOrchid, explanation: "taxes"),
-            NodeMember(percentage: 5, color: magenta, explanation: "insurance"),
-            NodeMember(percentage: 19, color: indigo, explanation: "insurance"),
+            NodeData(percentage: 17, color: plum, explanation: "food"),
+            NodeData(percentage: 45, color: darkViolet, explanation: "drinks"),
+            NodeData(percentage: 11, color: orchid, explanation: "online payments"),
+            NodeData(percentage: 3, color: darkOrchid, explanation: "taxes"),
+            NodeData(percentage: 5, color: magenta, explanation: "insurance"),
+            NodeData(percentage: 19, color: indigo, explanation: "insurance"),
             ]
         
         if !isZoomed {
@@ -83,7 +86,7 @@ class ViewController: UIViewController {
         UIView.animate(withDuration: makeNodeBiggerDuration, delay: makeNodeBiggerDelay, usingSpringWithDamping: makeNodeBiggerSpringDamping, initialSpringVelocity: makeNodeBiggerVelocity, options: .curveEaseOut, animations: {
             self.nodeView.frame = frame
             if self.isZoomed {
-                self.animateDetailedInformation(nodeMembers: nodeInformation)
+                self.animateDetailedInformation(nodeData: nodeInformation)
             }
         }, completion: { finished in })
     }
@@ -92,14 +95,14 @@ class ViewController: UIViewController {
         return degrees * M_PI / 180.0
     }
     
-    private func animateDetailedInformation(nodeMembers: [NodeMember]) {
+    private func animateDetailedInformation(nodeData: [NodeData]) {
         // set up some values to use in the curve
         let margin = progressLineMarginCoefficient * nodeView.frame.width
         let tempFrame = self.nodeView.frame
         let ovalRect = CGRect(x: tempFrame.origin.x - margin, y: tempFrame.origin.y - margin, width: tempFrame.width + 2 * margin, height: tempFrame.height + 2 * margin)
         var currentDegree = 270.0 // current degree's initial value is the start angle
         // draw all progress lines
-        for nodeMember in nodeMembers {
+        for nodeMember in nodeData {
             // create the bezier path
             let ovalPath = UIBezierPath()
             let degreeOfCurrentNode = nodeMember.percentage * allInDegrees / allInPercents

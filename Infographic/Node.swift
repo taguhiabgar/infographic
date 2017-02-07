@@ -8,7 +8,7 @@
 
 import UIKit
 
-class NodeMember {
+class NodeData {
     
     var percentage: Double
     var color: UIColor
@@ -22,6 +22,15 @@ class NodeMember {
 }
 
 class Node {
+    
+    enum VisualisationStyle {
+        case asynchronous
+        case synchronous
+        // warning: here can be more cases
+    }
+    
+    // this property decides which style will animation have
+    public var visualisationStyle: VisualisationStyle = .asynchronous // warning: remove this and initialize in initializer
     
     
     
