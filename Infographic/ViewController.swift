@@ -38,11 +38,16 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = lavender
-        initialSetup()
-        
-        convertColorDataIntoSwiftCode(data: "Blue\n\naliceblue = rgb(240,248,255)\nlavender = rgb(230,230,250)")
+        initialSetup()        
+//        if let path = Bundle.main.path(forResource: "AllColors", ofType: "txt") {
+//            do {
+//                let data = try String(contentsOfFile: path, encoding: .utf8)
+//                print(convertColorDataIntoSwiftCode(data: data))
+//            } catch {
+//                print(error)
+//            }
+//        }
     }
-
     
     private func initialSetup() {
         makeNodeClickable()
