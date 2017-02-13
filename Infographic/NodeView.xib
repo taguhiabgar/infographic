@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="NodeView" customModule="Infographic" customModuleProvider="target">
+            <connections>
+                <outlet property="explanationLabel" destination="TCZ-7J-xaA" id="SYt-nb-pBX"/>
+                <outlet property="imageView" destination="lnO-SG-ShO" id="SS2-lM-ubh"/>
+                <outlet property="titleLabel" destination="BtQ-lV-iRp" id="Tmk-Rh-B6I"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view opaque="NO" contentMode="scaleToFill" id="Bdl-Bs-adm">
+            <rect key="frame" x="0.0" y="0.0" width="280" height="280"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <imageView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="blue_circle" translatesAutoresizingMaskIntoConstraints="NO" id="lnO-SG-ShO">
+                    <rect key="frame" x="14" y="14" width="252" height="252"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="tintColor" red="1" green="0.1871446454" blue="0.015406895820000001" alpha="1" colorSpace="calibratedRGB"/>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BtQ-lV-iRp">
+                    <rect key="frame" x="91" y="115" width="98.5" height="49"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="41"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TCZ-7J-xaA">
+                    <rect key="frame" x="119" y="172" width="42" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="lnO-SG-ShO" firstAttribute="height" secondItem="Bdl-Bs-adm" secondAttribute="height" multiplier="0.9" id="2ff-gA-A2Z"/>
+                <constraint firstItem="lnO-SG-ShO" firstAttribute="width" secondItem="Bdl-Bs-adm" secondAttribute="width" multiplier="0.9" id="3dj-4L-vjO"/>
+                <constraint firstItem="TCZ-7J-xaA" firstAttribute="top" secondItem="BtQ-lV-iRp" secondAttribute="bottom" constant="7.5" id="4Id-jj-v3r"/>
+                <constraint firstItem="TCZ-7J-xaA" firstAttribute="centerX" secondItem="lnO-SG-ShO" secondAttribute="centerX" id="4i6-Ux-cAJ"/>
+                <constraint firstItem="BtQ-lV-iRp" firstAttribute="centerX" secondItem="lnO-SG-ShO" secondAttribute="centerX" id="fH8-TG-GTW"/>
+                <constraint firstItem="lnO-SG-ShO" firstAttribute="centerX" secondItem="Bdl-Bs-adm" secondAttribute="centerX" id="rjy-sZ-CRc"/>
+                <constraint firstItem="lnO-SG-ShO" firstAttribute="centerY" secondItem="Bdl-Bs-adm" secondAttribute="centerY" id="vze-pC-ln7"/>
+                <constraint firstItem="BtQ-lV-iRp" firstAttribute="centerY" secondItem="lnO-SG-ShO" secondAttribute="centerY" id="wsh-Lo-0Gq"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="-249" y="110"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="blue_circle" width="300" height="289"/>
+    </resources>
+</document>

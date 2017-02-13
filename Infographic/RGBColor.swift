@@ -37,7 +37,7 @@ class RGBColor {
     }
     
     // returns darker color
-    // NOTE: - Coefficient should be in range [0, 1] - the bigger the coefficient, the darker is color // TAGUHI
+    // NOTE: - Coefficient should be in range [0, 1] - the bigger the coefficient, the darker is color // TAGUHI // WARNING: EDIT THIS COMMENT
     public func darkerColor(coefficient: CGFloat) -> RGBColor {
         if coefficient <= 1 && coefficient >= 0 {
             let redValue = CGFloat(self.red) * coefficient

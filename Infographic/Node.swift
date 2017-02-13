@@ -8,31 +8,30 @@
 
 import UIKit
 
-class NodeData {
-    
-    var percentage: Double
-    var color: UIColor
-    var explanation: String
-    
-    init(percentage: Double, color: UIColor, explanation: String) {
-        self.percentage = percentage
-        self.explanation = explanation
-        self.color = color
-    }
-}
-
+// Node model
 class Node {
     
-    enum VisualisationStyle {
-        case asynchronous
-        case synchronous
-        // warning: here can be more cases
+    // MARK: - Properties
+    
+    public var title: String
+    public var explanation: String
+    public var data: [NodeData] // node information
+    
+    // MARK: - Initializers
+    
+    init() {
+        data = []
+        title = nodeDefaultTitle
+        explanation = nodeDefaultExplanation
     }
     
-    // this property decides which style will animation have
-    public var visualisationStyle: VisualisationStyle = .asynchronous // warning: remove this and initialize in initializer
+    init(title: String, explanation: String, data: [NodeData]) {
+        self.data = data
+        self.title = title
+        self.explanation = explanation
+    }
     
-    
+    // MARK: - Methods ?
     
 }
 

@@ -8,52 +8,39 @@
 
 import UIKit
 
-// -- constants --
+// warning: this is a test information
+let nodeInformation = [
+    NodeData(percentage: 17, color: plum, explanation: "food"),
+    NodeData(percentage: 45, color: darkViolet, explanation: "drinks"),
+    NodeData(percentage: 11, color: orchid, explanation: "online payments"),
+    NodeData(percentage: 3, color: darkOrchid, explanation: "taxes"),
+    NodeData(percentage: 5, color: magenta, explanation: "insurance"),
+    NodeData(percentage: 19, color: indigo, explanation: "other"),
+]
 
-// global
-let allInDegrees = 360.0
-let allInPercents = 100.0
+// warning: this is a test information
+let testFrame = CGRect(x: 100, y: 100, width: 200, height: 200)
 
-// node
-let makeNodeBiggerDuration = 0.3
-let makeNodeBiggerDelay = 0.0
-let makeNodeBiggerSpringDamping: CGFloat = 0 // 0.5 in previous version
-let makeNodeBiggerVelocity: CGFloat = 0.0
-let nodeImageName = "blue_circle"
-
-// progress line
-let progressLineWidth: CGFloat = 3.0
-let progressLineMarginCoefficient: CGFloat = 0.05
-
-// colors
-let mainColor = thistle
+// warning: this is a test information
+let testNode = Node(title: "TEST", explanation: "test", data: nodeInformation)
 
 class ViewController: UIViewController {
     
-    private var isZoomed = false // this shows if a node was chosen
-    private var progressLines: [CAShapeLayer] = []
-    
-    @IBOutlet weak var nodeView: UIImageView!
+    private var nodeView = NodeView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = lavender
-        initialSetup()        
-//        if let path = Bundle.main.path(forResource: "AllColors", ofType: "txt") {
-//            do {
-//                let data = try String(contentsOfFile: path, encoding: .utf8)
-//                print(convertColorDataIntoSwiftCode(data: data))
-//            } catch {
-//                print(error)
-//            }
-//        }
+        self.view.backgroundColor = RGBColor(red: 25, green: 25, blue: 25).uiColor()
+        setupNodes()
     }
     
-    private func initialSetup() {
+    private func setupNodes() {
+        nodeView = NodeView(frame: testFrame, node: testNode)
+        nodeView.titleLabel.textColor = indigo // lavenderblush
+        nodeView.explanationLabel.textColor = indigo // lavenderblush
+        nodeView.imageView.tintColor = lavender // indigo
         makeNodeClickable()
-        nodeView.image = UIImage(named: nodeImageName)?.withRenderingMode(.alwaysTemplate)
-        nodeView.tintColor = mainColor
-        // additional setup is missing
+        self.view.addSubview(nodeView)
     }
     
     private func makeNodeClickable() {
@@ -64,79 +51,9 @@ class ViewController: UIViewController {
     }
     
     @objc private func nodeViewTapAction() {
-        isZoomed = !isZoomed
-        // calculate destination frame of chosen node
-        let sideCoefficient: CGFloat = (isZoomed) ? 2.5 : 1 / 2.5
-        let newSide = nodeView.frame.width * sideCoefficient
-        let newOriginDifference = (newSide - nodeView.frame.width) / 2
-        let frame = CGRect(x: self.nodeView.frame.origin.x - newOriginDifference, y: self.nodeView.frame.origin.y - newOriginDifference, width: newSide, height: newSide)
-        // warning: this as a test information
-        let nodeInformation = [
-            NodeData(percentage: 17, color: plum, explanation: "food"),
-            NodeData(percentage: 45, color: darkViolet, explanation: "drinks"),
-            NodeData(percentage: 11, color: orchid, explanation: "online payments"),
-            NodeData(percentage: 3, color: darkOrchid, explanation: "taxes"),
-            NodeData(percentage: 5, color: magenta, explanation: "insurance"),
-            NodeData(percentage: 19, color: indigo, explanation: "insurance"),
-            ]
-        
-        if !isZoomed {
-            // remove all progress lines
-            for line in progressLines {
-                line.removeFromSuperlayer()
-            }
-            self.progressLines = []
-        }
-        // animate
-        UIView.animate(withDuration: makeNodeBiggerDuration, delay: makeNodeBiggerDelay, usingSpringWithDamping: makeNodeBiggerSpringDamping, initialSpringVelocity: makeNodeBiggerVelocity, options: .curveEaseOut, animations: {
-            self.nodeView.frame = frame
-            if self.isZoomed {
-                self.animateDetailedInformation(nodeData: nodeInformation)
-            }
-        }, completion: { finished in })
+        nodeView.tapAction(visualisationStyle: .asynchronous)
     }
     
-    private func radiansByDegrees(degrees: Double) -> Double {
-        return degrees * M_PI / 180.0
-    }
-    
-    private func animateDetailedInformation(nodeData: [NodeData]) {
-        // set up some values to use in the curve
-        let margin = progressLineMarginCoefficient * nodeView.frame.width
-        let tempFrame = self.nodeView.frame
-        let ovalRect = CGRect(x: tempFrame.origin.x - margin, y: tempFrame.origin.y - margin, width: tempFrame.width + 2 * margin, height: tempFrame.height + 2 * margin)
-        var currentDegree = 270.0 // current degree's initial value is the start angle
-        // draw all progress lines
-        for nodeMember in nodeData {
-            // create the bezier path
-            let ovalPath = UIBezierPath()
-            let degreeOfCurrentNode = nodeMember.percentage * allInDegrees / allInPercents
-            ovalPath.addArc(withCenter: CGPoint(x: ovalRect.midX, y: ovalRect.midY),
-                            radius: ovalRect.width / 2,
-                            startAngle: CGFloat(radiansByDegrees(degrees: currentDegree)),
-                            endAngle: CGFloat(radiansByDegrees(degrees: degreeOfCurrentNode + currentDegree)), clockwise: true)
-            currentDegree += degreeOfCurrentNode
-            // current progress line
-            var currentProgressLine = CAShapeLayer()
-            currentProgressLine = CAShapeLayer()
-            currentProgressLine.path = ovalPath.cgPath
-            currentProgressLine.strokeColor = nodeMember.color.cgColor
-            currentProgressLine.fillColor = UIColor.clear.cgColor
-            currentProgressLine.lineWidth = progressLineWidth
-            currentProgressLine.lineCap = kCALineCapRound
-            // add the progress line to the screen
-            self.view.layer.addSublayer(currentProgressLine)
-            // create a basic animation
-            let animateStrokeEnd = CABasicAnimation(keyPath: "strokeEnd")
-            animateStrokeEnd.duration = 0.6
-            animateStrokeEnd.fromValue = 0.0
-            animateStrokeEnd.toValue = 1.0
-            // add current progress line to array
-            progressLines.append(currentProgressLine)
-            // add the animation
-            currentProgressLine.add(animateStrokeEnd, forKey: "animate stroke end animation")
-        }
-    }
 }
 
 // --- TRY THIS LATER ---
