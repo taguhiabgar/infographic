@@ -14,6 +14,7 @@
             <connections>
                 <outlet property="explanationLabel" destination="TCZ-7J-xaA" id="SYt-nb-pBX"/>
                 <outlet property="imageView" destination="lnO-SG-ShO" id="SS2-lM-ubh"/>
+                <outlet property="summaryLabel" destination="UFm-4P-Ivw" id="1Zl-Fr-9wF"/>
                 <outlet property="titleLabel" destination="BtQ-lV-iRp" id="Tmk-Rh-B6I"/>
             </connections>
         </placeholder>
@@ -39,6 +40,12 @@
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UFm-4P-Ivw">
+                    <rect key="frame" x="119" y="129.5" width="42" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
@@ -46,6 +53,8 @@
                 <constraint firstItem="lnO-SG-ShO" firstAttribute="width" secondItem="Bdl-Bs-adm" secondAttribute="width" multiplier="0.9" id="3dj-4L-vjO"/>
                 <constraint firstItem="TCZ-7J-xaA" firstAttribute="top" secondItem="BtQ-lV-iRp" secondAttribute="bottom" constant="7.5" id="4Id-jj-v3r"/>
                 <constraint firstItem="TCZ-7J-xaA" firstAttribute="centerX" secondItem="lnO-SG-ShO" secondAttribute="centerX" id="4i6-Ux-cAJ"/>
+                <constraint firstItem="UFm-4P-Ivw" firstAttribute="centerY" secondItem="lnO-SG-ShO" secondAttribute="centerY" id="5PW-Am-1bL"/>
+                <constraint firstItem="UFm-4P-Ivw" firstAttribute="centerX" secondItem="lnO-SG-ShO" secondAttribute="centerX" id="a18-Aq-3De"/>
                 <constraint firstItem="BtQ-lV-iRp" firstAttribute="centerX" secondItem="lnO-SG-ShO" secondAttribute="centerX" id="fH8-TG-GTW"/>
                 <constraint firstItem="lnO-SG-ShO" firstAttribute="centerX" secondItem="Bdl-Bs-adm" secondAttribute="centerX" id="rjy-sZ-CRc"/>
                 <constraint firstItem="lnO-SG-ShO" firstAttribute="centerY" secondItem="Bdl-Bs-adm" secondAttribute="centerY" id="vze-pC-ln7"/>

@@ -22,7 +22,7 @@ let nodeInformation = [
 let testFrame = CGRect(x: 100, y: 100, width: 200, height: 200)
 
 // warning: this is a test information
-let testNode = Node(title: "TEST", explanation: "test", data: nodeInformation)
+let testNode = Node(summary: "Living Room", title: "928", explanation: "Avg.Wh/hour", data: nodeInformation)
 
 class ViewController: UIViewController {
     
@@ -36,9 +36,10 @@ class ViewController: UIViewController {
     
     private func setupNodes() {
         nodeView = NodeView(frame: testFrame, node: testNode)
-        nodeView.titleLabel.textColor = indigo // lavenderblush
-        nodeView.explanationLabel.textColor = indigo // lavenderblush
-        nodeView.imageView.tintColor = lavender // indigo
+        nodeView.titleLabel.textColor = indigo
+        nodeView.explanationLabel.textColor = indigo
+        nodeView.summaryLabel.textColor = indigo
+        nodeView.imageView.tintColor = lavender
         makeNodeClickable()
         self.view.addSubview(nodeView)
     }

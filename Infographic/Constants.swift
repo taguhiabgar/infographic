@@ -29,6 +29,7 @@ let allInPercents = 100.0
 
 let nodeDefaultTitle = ""
 let nodeDefaultExplanation = ""
+let nodeDefaultSummary = ""
 
 // ----------------------------------------------------------------
 // Node View (class) ----------------------------------------------

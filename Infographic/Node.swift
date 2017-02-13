@@ -13,6 +13,7 @@ class Node {
     
     // MARK: - Properties
     
+    public var summary: String
     public var title: String
     public var explanation: String
     public var data: [NodeData] // node information
@@ -23,10 +24,12 @@ class Node {
         data = []
         title = nodeDefaultTitle
         explanation = nodeDefaultExplanation
+        summary = nodeDefaultSummary
     }
     
-    init(title: String, explanation: String, data: [NodeData]) {
+    init(summary: String, title: String, explanation: String, data: [NodeData]) {
         self.data = data
+        self.summary = summary
         self.title = title
         self.explanation = explanation
     }

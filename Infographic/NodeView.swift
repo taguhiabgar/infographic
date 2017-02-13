@@ -23,16 +23,19 @@ class NodeView: UIView {
     
     // MARK: - Properties
     
+    // private properties
     private var expandCoefficient = nodeTapDefaultCoefficient
     private var node: Node
-    private var nodeRenderingMode = NodeRenderingMode.collapsed
     private let image = nodeDefaultImage!.withRenderingMode(.alwaysTemplate)
-    
     private var progressLines: [CAShapeLayer] = []
+    
+    // public properties
+    public var nodeRenderingMode = NodeRenderingMode.collapsed
     
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var explanationLabel: UILabel!
+    @IBOutlet weak var summaryLabel: UILabel!
     
     // MARK: - Initializers
     
@@ -72,8 +75,7 @@ class NodeView: UIView {
         // set image
         self.imageView.image = self.image
         // update labels
-        self.titleLabel.text = self.node.title
-        self.explanationLabel.text = self.node.explanation
+        updateLabels(animated: false)
     }
     
     public func tapAction(visualisationStyle: VisualisationStyle) {
@@ -92,6 +94,31 @@ class NodeView: UIView {
             }
         } else {
             collapse()
+        }
+        // update labels
+        updateLabels(animated: true)
+    }
+    
+    private func updateLabels(animated: Bool) {
+        self.titleLabel.text = self.node.title
+        self.explanationLabel.text = self.node.explanation
+        self.summaryLabel.text = self.node.summary
+        
+        if animated {
+            print("implementation missing: updateLabels")
+        } else {
+            print("implementation missing: updateLabels")
+        }
+        
+        switch self.nodeRenderingMode {
+        case .expanded:
+            self.titleLabel.isHidden = false
+            self.explanationLabel.isHidden = false
+            self.summaryLabel.isHidden = true
+        case .collapsed:
+            self.titleLabel.isHidden = true
+            self.explanationLabel.isHidden = true
+            self.summaryLabel.isHidden = false
         }
     }
     
