@@ -84,18 +84,12 @@ class NodeView: UIView {
     
     public func tapAction(visualisationStyle: VisualisationStyle, coefficient: CGFloat) {
         self.expandCoefficient = coefficient
-        // don't expand if node is already expanded
-        if self.nodeRenderingMode == .collapsed {
-            switch visualisationStyle {
-            case .asynchronous:
-                asyncExpand(coefficient: coefficient)
-            case .synchronous:
-                syncExpand(coefficient: coefficient)
-            }
-        } else {
+        switch self.nodeRenderingMode {
+        case .collapsed:
+            expand(visualisation: visualisationStyle)
+        case .expanded:
             collapse()
         }
-        // update labels
         updateLabels(animated: true)
     }
     
@@ -122,10 +116,6 @@ class NodeView: UIView {
         }
     }
     
-    private func syncExpand(coefficient: CGFloat) {
-        print("NOT IMPLEMENTED: syncExpand")
-    }
-    
     private func collapse() {
         self.nodeRenderingMode = .collapsed
         // remove progress lines
@@ -144,24 +134,18 @@ class NodeView: UIView {
         var frame = cgRectZero
         let startFrame = self.imageView.frame
         var coefficient = self.expandCoefficient
-        switch mode {
-        case .collapsed:
+        if mode == .collapsed {
             coefficient = 1 / coefficient
-        case .expanded:
-            break
         }
+        
         frame.size = CGSize(width: startFrame.width * coefficient, height: startFrame.height * coefficient)
         frame.origin = CGPoint(x: startFrame.origin.x + (startFrame.width - frame.width) / 2.0, y: startFrame.origin.y + (startFrame.height - frame.height) / 2.0)
         return frame
     }
     
-    private func asyncExpand(coefficient: CGFloat) {
+    private func expand(visualisation: VisualisationStyle) {
         self.nodeRenderingMode = .expanded
-        // calculate destination frame of node
-        let sideCoefficient: CGFloat = (self.nodeRenderingMode == .expanded) ? coefficient : 1 / coefficient
-        let newSide = self.imageView.frame.width * sideCoefficient
-        let newOriginDifference = (newSide - self.imageView.frame.width) / 2
-        let frame = CGRect(x: self.imageView.frame.origin.x - newOriginDifference, y: self.imageView.frame.origin.y - newOriginDifference, width: newSide, height: newSide)
+        let frame = calculateFrame(mode: .expanded)
         if self.nodeRenderingMode == .collapsed {
             // remove all progress lines
             for line in progressLines {
@@ -172,17 +156,27 @@ class NodeView: UIView {
         // animate
         UIView.animate(withDuration: makeNodeBiggerDuration, delay: makeNodeBiggerDelay, usingSpringWithDamping: makeNodeBiggerSpringDamping, initialSpringVelocity: makeNodeBiggerVelocity, options: .curveEaseOut, animations: {
             self.imageView.frame = frame
-            if self.nodeRenderingMode == .expanded {
-                self.asyncAnimateDetailedInformation(nodeData: self.node.data)
-            }
-        }, completion: { finished in })
+        }, completion: nil)
+        if visualisation == .asynchronous {
+            self.asyncAnimateProgressLines(nodeData: self.node.data)
+        } else {
+            self.syncAnimateProgressLines(nodeData: self.node.data)
+        }
     }
     
-    private func asyncAnimateDetailedInformation(nodeData: [NodeData]) {
+    private func syncAnimateProgressLines(nodeData: [NodeData]) {
+        
+    }
+    
+    private func asyncAnimateProgressLines(nodeData: [NodeData]) {
         // set up some values to use in the curve
         let margin = progressLineMarginCoefficient * self.imageView.frame.width
         let tempFrame = self.imageView.frame
-        let ovalRect = CGRect(x: tempFrame.origin.x - margin, y: tempFrame.origin.y - margin, width: tempFrame.width + 2 * margin, height: tempFrame.height + 2 * margin)
+        let ovalRect = CGRect(
+            x: tempFrame.origin.x - margin,
+            y: tempFrame.origin.y - margin,
+            width: tempFrame.width + 2 * margin,
+            height: tempFrame.height + 2 * margin)
         var currentDegree = 270.0 // current degree's initial value is the start angle
         // draw all progress lines
         for nodeMember in nodeData {
