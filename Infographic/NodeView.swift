@@ -23,6 +23,7 @@ class NodeView: UIView {
     
     // MARK: - Properties
     
+    private var expandCoefficient = nodeTapDefaultCoefficient
     private var node: Node
     private var nodeRenderingMode = NodeRenderingMode.collapsed
     private let image = nodeDefaultImage!.withRenderingMode(.alwaysTemplate)
@@ -76,10 +77,11 @@ class NodeView: UIView {
     }
     
     public func tapAction(visualisationStyle: VisualisationStyle) {
-        tapAction(visualisationStyle: visualisationStyle, coefficient: nodeTapDefaultCoefficient)
+        tapAction(visualisationStyle: visualisationStyle, coefficient: self.expandCoefficient)
     }
     
     public func tapAction(visualisationStyle: VisualisationStyle, coefficient: CGFloat) {
+        self.expandCoefficient = coefficient
         // don't expand if node is already expanded
         if self.nodeRenderingMode == .collapsed {
             switch visualisationStyle {
@@ -89,13 +91,41 @@ class NodeView: UIView {
                 syncExpand(coefficient: coefficient)
             }
         } else {
-            print("NOT IMPLEMENTED: collapse the node")
+            collapse()
         }
-        self.nodeRenderingMode = .expanded
     }
     
     private func syncExpand(coefficient: CGFloat) {
         print("NOT IMPLEMENTED: syncExpand")
+    }
+    
+    private func collapse() {
+        self.nodeRenderingMode = .collapsed
+        // remove progress lines
+        for line in progressLines {
+            line.removeFromSuperlayer()
+        }
+        progressLines = []
+        // animate
+        let frame = calculateFrame(mode: .collapsed)
+        UIView.animate(withDuration: makeNodeBiggerDuration, delay: makeNodeBiggerDelay, usingSpringWithDamping: makeNodeBiggerSpringDamping, initialSpringVelocity: makeNodeBiggerVelocity, options: .curveEaseOut, animations: {
+            self.imageView.frame = frame
+        }, completion: nil)
+    }
+    
+    private func calculateFrame(mode: NodeRenderingMode) -> CGRect {
+        var frame = cgRectZero
+        let startFrame = self.imageView.frame
+        var coefficient = self.expandCoefficient
+        switch mode {
+        case .collapsed:
+            coefficient = 1 / coefficient
+        case .expanded:
+            break
+        }
+        frame.size = CGSize(width: startFrame.width * coefficient, height: startFrame.height * coefficient)
+        frame.origin = CGPoint(x: startFrame.origin.x + (startFrame.width - frame.width) / 2.0, y: startFrame.origin.y + (startFrame.height - frame.height) / 2.0)
+        return frame
     }
     
     private func asyncExpand(coefficient: CGFloat) {
