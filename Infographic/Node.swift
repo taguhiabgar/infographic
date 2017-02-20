@@ -8,16 +8,6 @@
 
 import Foundation
 
-// warning: this is a test information
-let nodeInformation = [
-    NodeComponent(percentage: 17, explanation: "food"),
-    NodeComponent(percentage: 45, explanation: "drinks"),
-    NodeComponent(percentage: 11, explanation: "online payments"),
-    NodeComponent(percentage: 3, explanation: "taxes"),
-    NodeComponent(percentage: 5, explanation: "insurance"),
-    NodeComponent(percentage: 19, explanation: "other"),
-]
-
 class NodeComponent {
     var percentage: Double
     var explanation: String

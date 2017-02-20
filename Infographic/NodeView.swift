@@ -40,7 +40,7 @@ class NodeView: UIView {
     // MARK: - Initializers
     
     init() {
-        self.node = Node()
+        node = Node()
         super.init(frame: cgRectZero)
     }
     
@@ -52,7 +52,7 @@ class NodeView: UIView {
     }
     
     required init?(coder aDecoder: NSCoder) {
-        self.node = Node()
+        node = Node()
         super.init(coder: aDecoder)
         loadNib()
     }
@@ -63,28 +63,28 @@ class NodeView: UIView {
         let bundle = Bundle(for: type(of: self))
         let nib = UINib(nibName: nodeViewNibName, bundle: bundle)
         let view = nib.instantiate(withOwner: self, options: nil)[0] as! UIView
-        view.frame = self.bounds
+        view.frame = bounds
         view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        self.addSubview(view)
+        addSubview(view)
     }
     
     private func updateView() {
         // make node view transparent
-        self.backgroundColor = UIColor.black.withAlphaComponent(0.0)
-        self.imageView.backgroundColor = UIColor.black.withAlphaComponent(0.0)
+        backgroundColor = UIColor.black.withAlphaComponent(0.0)
+        imageView.backgroundColor = UIColor.black.withAlphaComponent(0.0)
         // set image
-        self.imageView.image = self.image
+        imageView.image = image
         // update labels
         updateLabels(animated: false)
     }
     
     public func tapAction(visualisationStyle: VisualisationStyle) {
-        tapAction(visualisationStyle: visualisationStyle, coefficient: self.expandCoefficient)
+        tapAction(visualisationStyle: visualisationStyle, coefficient: expandCoefficient)
     }
     
     public func tapAction(visualisationStyle: VisualisationStyle, coefficient: CGFloat) {
-        self.expandCoefficient = coefficient
-        switch self.nodeRenderingMode {
+        expandCoefficient = coefficient
+        switch nodeRenderingMode {
         case .collapsed:
             expand(visualisation: visualisationStyle)
         case .expanded:
@@ -94,9 +94,9 @@ class NodeView: UIView {
     }
     
     private func updateLabels(animated: Bool) {
-        self.titleLabel.text = self.node.title
-        self.explanationLabel.text = self.node.explanation
-        self.summaryLabel.text = self.node.summary
+        titleLabel.text = node.title
+        explanationLabel.text = node.explanation
+        summaryLabel.text = node.summary
         
         if animated {
             print("implementation missing: updateLabels")
@@ -104,20 +104,20 @@ class NodeView: UIView {
             print("implementation missing: updateLabels")
         }
         
-        switch self.nodeRenderingMode {
+        switch nodeRenderingMode {
         case .expanded:
-            self.titleLabel.isHidden = false
-            self.explanationLabel.isHidden = false
-            self.summaryLabel.isHidden = true
+            titleLabel.isHidden = false
+            explanationLabel.isHidden = false
+            summaryLabel.isHidden = true
         case .collapsed:
-            self.titleLabel.isHidden = true
-            self.explanationLabel.isHidden = true
-            self.summaryLabel.isHidden = false
+            titleLabel.isHidden = true
+            explanationLabel.isHidden = true
+            summaryLabel.isHidden = false
         }
     }
     
     private func collapse() {
-        self.nodeRenderingMode = .collapsed
+        nodeRenderingMode = .collapsed
         // remove progress lines
         for line in progressLines {
             line.removeFromSuperlayer()
@@ -132,8 +132,8 @@ class NodeView: UIView {
     
     private func calculateFrame(mode: NodeRenderingMode) -> CGRect {
         var frame = cgRectZero
-        let startFrame = self.imageView.frame
-        var coefficient = self.expandCoefficient
+        let startFrame = imageView.frame
+        var coefficient = expandCoefficient
         if mode == .collapsed {
             coefficient = 1 / coefficient
         }
@@ -143,14 +143,14 @@ class NodeView: UIView {
     }
     
     private func expand(visualisation: VisualisationStyle) {
-        self.nodeRenderingMode = .expanded
+        nodeRenderingMode = .expanded
         let frame = calculateFrame(mode: .expanded)
-        if self.nodeRenderingMode == .collapsed {
+        if nodeRenderingMode == .collapsed {
             // remove all progress lines
             for line in progressLines {
                 line.removeFromSuperlayer()
             }
-            self.progressLines = []
+            progressLines = []
         }
         // animate
         UIView.animate(withDuration: makeNodeBiggerDuration, delay: makeNodeBiggerDelay, usingSpringWithDamping: makeNodeBiggerSpringDamping, initialSpringVelocity: makeNodeBiggerVelocity, options: .curveEaseOut, animations: {
@@ -159,18 +159,16 @@ class NodeView: UIView {
         // animate progress lines
         switch visualisation {
         case .asynchronous:
-            self.asyncAnimateProgressLines(nodeData: self.node.data)
+            asyncAnimateProgressLines(nodeData: node.data)
         case .synchronous:
-            self.syncAnimateProgressLines(nodeData: self.node.data)
+            syncAnimateProgressLines(nodeData: node.data)
         }
     }
     
     private func syncAnimateProgressLines(nodeData: [NodeComponent]) {
-        
-        
         // set up some values to use in the curve
-        let margin = progressLineMarginCoefficient * self.imageView.frame.width
-        let tempFrame = self.imageView.frame
+        let margin = progressLineMarginCoefficient * imageView.frame.width
+        let tempFrame = imageView.frame
         let ovalRect = CGRect(
             x: tempFrame.origin.x - margin,
             y: tempFrame.origin.y - margin,
@@ -204,7 +202,7 @@ class NodeView: UIView {
             currentProgressLine.lineWidth = progressLineWidth
             currentProgressLine.lineCap = kCALineCapRound
             // add the progress line to the screen
-            self.layer.addSublayer(currentProgressLine)
+            layer.addSublayer(currentProgressLine)
             // add current progress line to array
             progressLines.append(currentProgressLine)
             // add the animation
@@ -233,8 +231,8 @@ class NodeView: UIView {
     
     private func asyncAnimateProgressLines(nodeData: [NodeComponent]) {
         // set up some values to use in the curve
-        let margin = progressLineMarginCoefficient * self.imageView.frame.width
-        let tempFrame = self.imageView.frame
+        let margin = progressLineMarginCoefficient * imageView.frame.width
+        let tempFrame = imageView.frame
         let ovalRect = CGRect(
             x: tempFrame.origin.x - margin,
             y: tempFrame.origin.y - margin,
@@ -260,7 +258,7 @@ class NodeView: UIView {
             currentProgressLine.lineWidth = progressLineWidth
             currentProgressLine.lineCap = kCALineCapRound
             // add the progress line to the screen
-            self.layer.addSublayer(currentProgressLine)
+            layer.addSublayer(currentProgressLine)
             // create a basic animation
             let animateStrokeEnd = CABasicAnimation(keyPath: "strokeEnd")
             animateStrokeEnd.duration = 0.6

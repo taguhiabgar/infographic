@@ -30,19 +30,19 @@ class RGBColor {
     
     // returns UIColor value
     public func uiColor() -> UIColor {
-        return UIColor(red: CGFloat(self.red) / CGFloat(RGBColor.maxValue),
-                       green: CGFloat(self.green) / CGFloat(RGBColor.maxValue),
-                       blue: CGFloat(self.blue) / CGFloat(RGBColor.maxValue),
+        return UIColor(red: CGFloat(red) / CGFloat(RGBColor.maxValue),
+                       green: CGFloat(green) / CGFloat(RGBColor.maxValue),
+                       blue: CGFloat(blue) / CGFloat(RGBColor.maxValue),
                        alpha: CGFloat(solidColorAlpha))
     }
     
     // returns darker color
-    // NOTE: - Coefficient should be in range [0, 1] - the bigger the coefficient, the darker is color // TAGUHI // WARNING: EDIT THIS COMMENT
+    // NOTE: - Coefficient should be in range [0, 1] - the smaller the coefficient, the darker is color
     public func darkerColor(coefficient: CGFloat) -> RGBColor {
         if coefficient <= 1 && coefficient >= 0 {
-            let redValue = CGFloat(self.red) * coefficient
-            let greenValue = CGFloat(self.green) * coefficient
-            let blueValue = CGFloat(self.blue) * coefficient
+            let redValue = CGFloat(red) * coefficient
+            let greenValue = CGFloat(green) * coefficient
+            let blueValue = CGFloat(blue) * coefficient
             return RGBColor(red: Int(redValue), green: Int(greenValue), blue: Int(blueValue))
         } else {
             return self

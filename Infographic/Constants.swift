@@ -23,6 +23,12 @@ let cgRectZero = CGRect(x: 0, y: 0, width: 0, height: 0)
 let allInDegrees = 360.0
 let allInPercents = 100.0
 
+// names
+let mainStoryboardName = "Main"
+
+// identifiers
+let editNodesVCIdentifier = "EditNodesViewController"
+
 // ----------------------------------------------------------------
 // Node (class) ---------------------------------------------------
 // ----------------------------------------------------------------
@@ -53,7 +59,6 @@ let makeNodeBiggerVelocity: CGFloat = 0.0
 // progress line
 let progressLineWidth: CGFloat = 3.0
 let progressLineMarginCoefficient: CGFloat = 0.05
-
 
 
 
