@@ -137,7 +137,6 @@ class NodeView: UIView {
         if mode == .collapsed {
             coefficient = 1 / coefficient
         }
-        
         frame.size = CGSize(width: startFrame.width * coefficient, height: startFrame.height * coefficient)
         frame.origin = CGPoint(x: startFrame.origin.x + (startFrame.width - frame.width) / 2.0, y: startFrame.origin.y + (startFrame.height - frame.height) / 2.0)
         return frame
@@ -157,18 +156,82 @@ class NodeView: UIView {
         UIView.animate(withDuration: makeNodeBiggerDuration, delay: makeNodeBiggerDelay, usingSpringWithDamping: makeNodeBiggerSpringDamping, initialSpringVelocity: makeNodeBiggerVelocity, options: .curveEaseOut, animations: {
             self.imageView.frame = frame
         }, completion: nil)
-        if visualisation == .asynchronous {
+        // animate progress lines
+        switch visualisation {
+        case .asynchronous:
             self.asyncAnimateProgressLines(nodeData: self.node.data)
-        } else {
+        case .synchronous:
             self.syncAnimateProgressLines(nodeData: self.node.data)
         }
     }
     
-    private func syncAnimateProgressLines(nodeData: [NodeData]) {
+    private func syncAnimateProgressLines(nodeData: [NodeComponent]) {
         
+        
+        // set up some values to use in the curve
+        let margin = progressLineMarginCoefficient * self.imageView.frame.width
+        let tempFrame = self.imageView.frame
+        let ovalRect = CGRect(
+            x: tempFrame.origin.x - margin,
+            y: tempFrame.origin.y - margin,
+            width: tempFrame.width + 2 * margin,
+            height: tempFrame.height + 2 * margin)
+        var currentDegree = 270.0 // current degree's initial value is the start angle
+        
+        CATransaction.begin()
+        
+        // create a basic animation
+        let animateStrokeEnd = CABasicAnimation(keyPath: "strokeEnd")
+        animateStrokeEnd.duration = 0.6
+        animateStrokeEnd.fromValue = 0.0
+        animateStrokeEnd.toValue = 1.0
+        // draw all progress lines
+        for nodeMember in nodeData {
+            // create the bezier path
+            let ovalPath = UIBezierPath()
+            let degreeOfCurrentNode = nodeMember.percentage * allInDegrees / allInPercents
+            ovalPath.addArc(withCenter: CGPoint(x: ovalRect.midX, y: ovalRect.midY),
+                            radius: ovalRect.width / 2,
+                            startAngle: CGFloat(radiansByDegrees(degrees: currentDegree)),
+                            endAngle: CGFloat(radiansByDegrees(degrees: degreeOfCurrentNode + currentDegree)), clockwise: true)
+            currentDegree += degreeOfCurrentNode
+            // current progress line
+            var currentProgressLine = CAShapeLayer()
+            currentProgressLine = CAShapeLayer()
+            currentProgressLine.path = ovalPath.cgPath
+            currentProgressLine.strokeColor = white.cgColor // warning: change!
+            currentProgressLine.fillColor = UIColor.clear.cgColor
+            currentProgressLine.lineWidth = progressLineWidth
+            currentProgressLine.lineCap = kCALineCapRound
+            // add the progress line to the screen
+            self.layer.addSublayer(currentProgressLine)
+            // add current progress line to array
+            progressLines.append(currentProgressLine)
+            // add the animation
+            currentProgressLine.add(animateStrokeEnd, forKey: "animate stroke end animation")
+        }
+        // --- TRY THIS ---
+        
+        //// Begin the transaction
+        //CATransaction.begin()
+        //let animation = CABasicAnimation(keyPath: "strokeEnd")
+        //animation.duration = duration //duration is the number of seconds
+        //animation.fromValue = 0
+        //animation.toValue = 1
+        //animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
+        //circleLayer.strokeEnd = 1.0
+        //
+        //// Callback function
+        //CATransaction.setCompletionBlock {
+        //    print("end animation")
+        //}
+        //
+        //// Do the actual animation and commit the transaction
+        //circleLayer.add(animation, forKey: "animateCircle")
+        //CATransaction.commit()
     }
     
-    private func asyncAnimateProgressLines(nodeData: [NodeData]) {
+    private func asyncAnimateProgressLines(nodeData: [NodeComponent]) {
         // set up some values to use in the curve
         let margin = progressLineMarginCoefficient * self.imageView.frame.width
         let tempFrame = self.imageView.frame
@@ -192,7 +255,7 @@ class NodeView: UIView {
             var currentProgressLine = CAShapeLayer()
             currentProgressLine = CAShapeLayer()
             currentProgressLine.path = ovalPath.cgPath
-            currentProgressLine.strokeColor = nodeMember.color.cgColor
+            currentProgressLine.strokeColor = white.cgColor // warning: change!
             currentProgressLine.fillColor = UIColor.clear.cgColor
             currentProgressLine.lineWidth = progressLineWidth
             currentProgressLine.lineCap = kCALineCapRound

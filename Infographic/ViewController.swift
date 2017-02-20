@@ -9,16 +9,6 @@
 import UIKit
 
 // warning: this is a test information
-let nodeInformation = [
-    NodeData(percentage: 17, color: plum, explanation: "food"),
-    NodeData(percentage: 45, color: darkViolet, explanation: "drinks"),
-    NodeData(percentage: 11, color: orchid, explanation: "online payments"),
-    NodeData(percentage: 3, color: darkOrchid, explanation: "taxes"),
-    NodeData(percentage: 5, color: magenta, explanation: "insurance"),
-    NodeData(percentage: 19, color: indigo, explanation: "other"),
-]
-
-// warning: this is a test information
 let testFrame = CGRect(x: 100, y: 100, width: 200, height: 200)
 
 // warning: this is a test information
@@ -52,27 +42,14 @@ class ViewController: UIViewController {
     }
     
     @objc private func nodeViewTapAction() {
-        nodeView.tapAction(visualisationStyle: .asynchronous)
+        nodeView.tapAction(visualisationStyle: .synchronous)
+    }
+    
+    @IBAction func editButtonAction(_ sender: Any) {
+        let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        
+        if let nextViewController = storyBoard.instantiateViewController(withIdentifier: "EditNodesViewController") as? EditNodesViewController {            self.navigationController?.pushViewController(nextViewController, animated: true)
+        }
     }
     
 }
-
-// --- TRY THIS LATER ---
-
-//// Begin the transaction
-//CATransaction.begin()
-//let animation = CABasicAnimation(keyPath: "strokeEnd")
-//animation.duration = duration //duration is the number of seconds
-//animation.fromValue = 0
-//animation.toValue = 1
-//animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
-//circleLayer.strokeEnd = 1.0
-//
-//// Callback function
-//CATransaction.setCompletionBlock {
-//    print("end animation")
-//}
-//
-//// Do the actual animation and commit the transaction
-//circleLayer.add(animation, forKey: "animateCircle")
-//CATransaction.commit()
